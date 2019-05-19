@@ -76,8 +76,8 @@ sub configure_cells ($self) {
     for my $spec (
       [ north => $row - 1, $col ],
       [ south => $row + 1, $col ],
-      [ east  => $row, $col - 1 ],
-      [ west  => $row, $col + 1 ],
+      [ west  => $row, $col - 1 ],
+      [ east  => $row, $col + 1 ],
     ) {
       my ($dir, $x, $y) = @$spec;
 
