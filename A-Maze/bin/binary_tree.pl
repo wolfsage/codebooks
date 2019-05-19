@@ -15,3 +15,5 @@ my $grid = A::Maze::Grid->new({
 });
 
 $bt->on($grid);
+
+$grid->render;

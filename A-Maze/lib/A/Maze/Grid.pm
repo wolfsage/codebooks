@@ -9,6 +9,18 @@ use A::Maze::Cell;
 has rows => (is => 'ro', isa => 'Int', required => 1);
 has cols => (is => 'ro', isa => 'Int', required => 1);
 
+has renderer => (
+  is      => 'ro',
+  isa     => 'Str',
+  default => 'ASCII',
+);
+
+has renderer_object => (
+  is      => 'ro',
+  does    => 'A::Maze::Renderer',
+  writer  => 'set_renderer_object',
+);
+
 has grid => (
   is      => 'ro',
   isa     => 'ArrayRef',
@@ -43,6 +55,18 @@ sub prepare_grid ($self) {
 
 sub BUILD ($self, @) {
   $self->configure_cells;
+
+  $self->load_renderer;
+}
+
+sub load_renderer ($self) {
+  my $renderer = $self->renderer;
+
+  my $rclass = "A::Maze::Renderer::$renderer";
+  eval "use $rclass";
+  die "Failed to load renderer for $renderer: $@\n" if $@;
+
+  $self->set_renderer_object($rclass->new);
 }
 
 sub configure_cells ($self) {
@@ -83,6 +107,10 @@ sub do_with_each_cell ($self, $code) {
   for my $cell ($self->cells) {
     $code->($self, $cell);
   }
+}
+
+sub render ($self) {
+  $self->renderer_object->render($self);
 }
 
 1;
