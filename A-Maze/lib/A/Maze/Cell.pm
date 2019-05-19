@@ -12,14 +12,14 @@ has south => (is => 'rw', isa => 'A::Maze::Cell');
 has east  => (is => 'rw', isa => 'A::Maze::Cell');
 has west  => (is => 'rw', isa => 'A::Maze::Cell');
 
-has links => (
-  is => 'ro',
-  isa => 'HashRef',
-  trats => ['Hash'],
+has _links => (
+  is      => 'ro',
+  isa     => 'HashRef',
+  traits  => ['Hash'],
   handles => {
     _link   => 'set',
     _unlink => 'delete',
-    links   => 'keys',
+    links   => 'values',
     linked  => 'exists'
   },
 );
