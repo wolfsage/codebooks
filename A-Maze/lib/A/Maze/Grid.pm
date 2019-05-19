@@ -30,17 +30,20 @@ sub prepare_grid ($self) {
   my @grid;
 
   for my $row (0..$self->rows - 1) {
-    for my $col (0..$self->columns - 1) {
-      $grid[$row][$col] = A::Maze::Cell->new($row, $col);
+    for my $col (0..$self->cols - 1) {
+      $grid[$row][$col] = A::Maze::Cell->new({
+        row => $row,
+        col => $col,
+      });
     }
   }
 
   return \@grid;
 }
 
-after prepare_grid => sub ($self) {
+sub BUILD ($self, @) {
   $self->configure_cells;
-};
+}
 
 sub configure_cells ($self) {
   $self->do_with_each_cell(sub ($self, $cell) {
@@ -54,7 +57,9 @@ sub configure_cells ($self) {
     ) {
       my ($dir, $x, $y) = @$spec;
 
-      $self->$dir($self->grid->[$x] && $self->grid->[$x][$y]);
+      if (my $adjacent = $self->grid->[$x] && $self->grid->[$x][$y]) {
+        $cell->$dir($adjacent);
+      }
     }
   });
 }
