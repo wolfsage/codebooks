@@ -30,7 +30,7 @@ sub render ($self, $grid, $arg = {}) {
     my $x2 = ($cell->col + 1) * $cell_size;
     my $y2 = ($cell->row + 1) * $cell_size;
 
-    $img->line($x1, $y1, $x2, $y2, $wall) unless $cell->north;
+    $img->line($x1, $y1, $x2, $y1, $wall) unless $cell->north;
     $img->line($x1, $y1, $x1, $y2, $wall) unless $cell->west;
 
     $img->line($x2, $y1, $x2, $y2, $wall) unless $cell->linked($cell->east);
