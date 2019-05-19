@@ -8,12 +8,21 @@ use lib qw(lib);
 use A::Maze::Grid;
 use A::Maze::Generator::Sidewinder;
 
+my $renderer = shift;
+
 my $bt = A::Maze::Generator::Sidewinder->new;
 my $grid = A::Maze::Grid->new({
-  rows => 8,
-  cols => 8,
+  rows => 20,
+  cols => 20,
+  ( $renderer ? (renderer => $renderer) : () ), # Default to ASCII
 });
 
 $bt->on($grid);
 
-$grid->render;
+my $res = $grid->render;
+
+if ($res) {
+  print "$res\n";
+}
+
+

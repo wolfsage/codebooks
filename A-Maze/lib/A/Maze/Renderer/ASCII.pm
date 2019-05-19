@@ -6,7 +6,7 @@ with 'A::Maze::Renderer';
 use feature qw(say state postderef signatures);
 use experimental qw(postderef signatures);
 
-sub render ($self, $grid) {
+sub render ($self, $grid, $arg = {}) {
   say "+" . ("---+" x $grid->cols);
 
   $grid->do_with_each_row(sub ($grid, $row) {

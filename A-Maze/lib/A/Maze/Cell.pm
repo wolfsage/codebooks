@@ -20,9 +20,15 @@ has _links => (
     _link   => 'set',
     _unlink => 'delete',
     links   => 'values',
-    linked  => 'exists'
+    _linked  => 'exists'
   },
 );
+
+sub linked ($self, $cell) {
+  return unless $cell;
+
+  return $self->_linked($cell);
+}
 
 sub link ($self, $cell) {
   $self->_link($cell => $cell);
