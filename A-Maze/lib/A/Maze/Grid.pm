@@ -81,6 +81,8 @@ sub configure_cells ($self) {
     ) {
       my ($dir, $x, $y) = @$spec;
 
+      next if ($x < 0 || $y < 0);
+
       if (my $adjacent = $self->grid->[$x] && $self->grid->[$x][$y]) {
         $cell->$dir($adjacent);
       }
