@@ -4,6 +4,8 @@ use Moose;
 use feature qw(say state postderef signatures);
 use experimental qw(postderef signatures);
 
+use A::Maze::Distances;
+
 has row => (is => 'ro', isa => 'Int', required => 1);
 has col => (is => 'ro', isa => 'Int', required => 1);
 
@@ -50,6 +52,27 @@ sub neighbors ($self) {
   } map {
     $self->$_
   } qw(north south east west);
+}
+
+sub distances ($self) {
+  my $distances = A::Maze::Distances->new($self);
+  my @frontier = ($self);
+
+  while (@frontier) {
+    my @new_frontier;
+
+    for my $cell (@frontier) {
+      for my $link ($cell->links) {
+        next if $distances->get_distance($link);
+
+        $distances->set_distance($link, $distances->get_distance($cell) + 1);
+
+        push @new_frontier, $link;
+      }
+    }
+
+    @frontier = @new_frontier;
+  }
 }
 
 1;
