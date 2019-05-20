@@ -8,7 +8,10 @@ use lib qw(lib);
 use A::Maze::Grid;
 use A::Maze::Generator::BinaryTree;
 
+use Path::Tiny;
+
 my $renderer = shift;
+my $debug = shift;
 
 my $bt = A::Maze::Generator::BinaryTree->new;
 my $grid = A::Maze::Grid->new({
@@ -19,4 +22,6 @@ my $grid = A::Maze::Grid->new({
 
 $bt->on($grid);
 
-$grid->render;
+$grid->render({
+  ( $debug ? (debug_filename => Path::Tiny->tempfile(UNLINK => 0)) : () ),
+});

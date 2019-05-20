@@ -111,8 +111,8 @@ sub do_with_each_cell ($self, $code) {
   }
 }
 
-sub render ($self) {
-  $self->renderer_object->render($self);
+sub render ($self, @args) {
+  $self->renderer_object->render($self, @args);
 }
 
 1;

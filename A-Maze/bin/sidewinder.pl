@@ -8,7 +8,10 @@ use lib qw(lib);
 use A::Maze::Grid;
 use A::Maze::Generator::Sidewinder;
 
+use Path::Tiny;
+
 my $renderer = shift;
+my $debug = shift;
 
 my $bt = A::Maze::Generator::Sidewinder->new;
 my $grid = A::Maze::Grid->new({
@@ -19,10 +22,10 @@ my $grid = A::Maze::Grid->new({
 
 $bt->on($grid);
 
-my $res = $grid->render;
+my $res = $grid->render({
+  ( $debug ? (debug_filename => Path::Tiny->tempfile(UNLINK => 0)) : () ),
+});
 
 if ($res) {
   print "$res\n";
 }
-
-
