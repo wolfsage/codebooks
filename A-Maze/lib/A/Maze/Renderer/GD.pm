@@ -19,7 +19,7 @@ sub render ($self, $grid, $arg = {}) {
   my $img_width = $cell_size * $grid->cols;
   my $img_height = $cell_size * $grid->rows;
 
-  my $img = GD::Image->new($img_width + 1, $img_height + 1);
+  my $img = GD::Image->new($img_width + 7, $img_height + 7);
 
   my $debug = $debug_file ? sub ($finish = 0) {
     state $gif = GD::Image->new($img_width + 1, $img_height + 1);
@@ -42,10 +42,12 @@ sub render ($self, $grid, $arg = {}) {
   $debug->();
 
   $grid->do_with_each_cell(sub ($grid, $cell) {
-    my $x1 = $cell->col * $cell_size;
-    my $y1 = $cell->row * $cell_size;
-    my $x2 = ($cell->col + 1) * $cell_size;
-    my $y2 = ($cell->row + 1) * $cell_size;
+    # Shift x/y 3 pixels so we get our maze drawn within a border
+    # and its outer walls are visible with dark backgrounds
+    my $x1 = $cell->col * $cell_size + 3;
+    my $y1 = $cell->row * $cell_size + 3;
+    my $x2 = $x1 + $cell_size;
+    my $y2 = $y1 + $cell_size;
 
     $img->line($x1, $y1, $x2, $y1, $wall) unless $cell->north;
     $debug->() unless $cell->north;
