@@ -1,6 +1,8 @@
 package A::Maze::Generator::BinaryTree;
 use Moose;
 
+with 'A::Maze::Generator';
+
 use feature qw(say state postderef signatures);
 use experimental qw(postderef signatures);
 
