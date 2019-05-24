@@ -22,6 +22,10 @@ my $grid = A::Maze::Grid->new({
 
 $bt->on($grid);
 
-$grid->render({
+my $res = $grid->render({
   ( $debug ? (debug_filename => Path::Tiny->tempfile(UNLINK => 0)) : () ),
 });
+
+if ($res) {
+  print "$res\n";
+}
