@@ -22,7 +22,6 @@ sub render ($self, $grid, $arg = {}) {
   my $img = GD::Image->new($img_width + 7, $img_height + 7);
 
   my $debug = $debug_file ? sub ($finish = 0) {
-    state $gif = GD::Image->new($img_width + 1, $img_height + 1);
     state $gifdata = do { $img->gifanimbegin(1) . $img->gifanimadd; };
 
     if ($finish) {
